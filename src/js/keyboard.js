@@ -5,8 +5,6 @@ export class Keyboard {
   #keyboardEl;
   #inputGroupEl;
   #inputEl;
-  #keyPress = false;
-  #mouseDown = false;
   constructor() {
     this.#assignEl();
     this.#addEvent();
@@ -38,17 +36,22 @@ export class Keyboard {
   #onMouseUp(e) {
     const keyEl = e.target.closest("div.key");
     const isActive = !!keyEl?.classList.contains("active");
-    const val = keyEl?.dataset.val;
+    const val = keyEl?.dataset;
 
-    if (isActive && !!val && val !== "Space" && val !== "Backspace") {
-      this.#inputEl.value += val;
+    if (
+      isActive &&
+      !!val.val &&
+      val.val !== "Space" &&
+      val.val !== "Backspace"
+    ) {
+      this.#inputEl.value += val.val;
     }
 
-    if (isActive && val === "Space") {
+    if (isActive && val.val === "Space") {
       this.#inputEl.value += " ";
     }
 
-    if (isActive && val === "Backspace") {
+    if (isActive && val.val === "Backspace") {
       this.#inputEl.value = this.#inputEl.value.slice(0, -1);
     }
 
